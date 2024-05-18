@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemComponent.h"
 #include "GasCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -22,6 +23,10 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	UAbilitySystemComponent* Test;
+
+
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -32,3 +37,12 @@ private:
 	class USpringArmComponent* CameraBoom;
 };
 
+#define ASAEEQ(PropertyName) \
+FORCEINLINE void Set##PropertyName(float NewVal) \
+{ \
+UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent(); \
+if (ensure(AbilityComp)) \
+{ \
+AbilityComp->GetSpawnedAttributes() \
+}; \
+}
