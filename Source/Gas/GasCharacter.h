@@ -17,16 +17,15 @@ public:
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
+	void InitAbilityInfoActor();
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	UAbilitySystemComponent* Test;
-
-
-
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -36,13 +35,3 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 };
-
-#define ASAEEQ(PropertyName) \
-FORCEINLINE void Set##PropertyName(float NewVal) \
-{ \
-UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent(); \
-if (ensure(AbilityComp)) \
-{ \
-AbilityComp->GetSpawnedAttributes() \
-}; \
-}

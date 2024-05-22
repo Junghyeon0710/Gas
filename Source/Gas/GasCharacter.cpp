@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Player/GasPlayerState.h"
 
 AGasCharacter::AGasCharacter()
 {
@@ -48,4 +49,27 @@ AGasCharacter::AGasCharacter()
 void AGasCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+}
+
+void AGasCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	InitAbilityInfoActor();
+	
+	
+}
+
+void AGasCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	
+	InitAbilityInfoActor();
+}
+
+void AGasCharacter::InitAbilityInfoActor()
+{
+	AGasPlayerState* GasPlayerState = GetPlayerState<AGasPlayerState>();
+	check(GasPlayerState);
+	GasPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GasPlayerState,this);
 }
