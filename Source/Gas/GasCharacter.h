@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "AbilitySystemComponent.h"
+#include "Character/GasCharacterBase.h"
 #include "GasCharacter.generated.h"
 
+class ABullet;
+
 UCLASS(Blueprintable)
-class AGasCharacter : public ACharacter
+class AGasCharacter : public AGasCharacterBase
 {
 	GENERATED_BODY()
 
@@ -26,6 +27,8 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+protected:
+	virtual void BeginPlay() override;
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -34,4 +37,14 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+
+private:
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ABullet> Bullet;
+
+	void OnBulletTimer();
+
+	// Timer handle
+	FTimerHandle BulletTimerHandle;
 };

@@ -41,7 +41,13 @@ class GAS_API UGasAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 public:
-	
+	UGasAttributeSet();
+
+	//값이 바뀌기전에 호출 하지만 에픽게임즈에서는 clamp만 하기를 권장 , 여기서 이벤트는 비추
+	//값을 고정해도 이후에 변경되면 값이 또 바뀌기 때문에 이상적인 장소는 아님 post에서 수정당할 수 있음 그럼 거기서
+	//다시 clamp를 해줘야함
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual  void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_Health)
@@ -58,10 +64,10 @@ public:
 	
 protected:
 	UFUNCTION()
-	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
+	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 	
 	UFUNCTION()
-	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
+	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 };
 
 

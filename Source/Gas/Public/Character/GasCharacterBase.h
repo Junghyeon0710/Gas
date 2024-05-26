@@ -3,22 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
-#include "GasPlayerState.generated.h"
+#include "GameFramework/Character.h"
+#include "GasCharacterBase.generated.h"
 
-/**
- * 
- */
-class UAbilitySystemComponent;
 class UGasAttributeSet;
+class UAbilitySystemComponent;
 UCLASS()
-class GAS_API AGasPlayerState : public APlayerState, public IAbilitySystemInterface
+class GAS_API AGasCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
-	AGasPlayerState();
+	
+	AGasCharacterBase();
 	//~ IAbilitySystemInterface 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface
@@ -30,5 +28,15 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UGasAttributeSet> AttributeSet;
 
-	
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 };

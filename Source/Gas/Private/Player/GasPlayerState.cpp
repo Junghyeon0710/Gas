@@ -4,6 +4,7 @@
 #include "Player/GasPlayerState.h"
 
 #include "AbilitySystemComponent.h"
+#include "Abilities/AttributeSet/GasAttributeSet.h"
 
 AGasPlayerState::AGasPlayerState()
 {
@@ -13,7 +14,7 @@ AGasPlayerState::AGasPlayerState()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed); // Mixed는 이펙트는 소유 클라  //미니멀은 이펙트는 복제 안됨 ex ) 적들은 속성값이 복제될표가없고 큐하고 태그만 되면됨 , Full 이펙트가 모든 클라
 
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UGasAttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* AGasPlayerState::GetAbilitySystemComponent() const

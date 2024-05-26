@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "GasCharacter.h"
+
+#include "AbilitySystemComponent.h"
+#include "Bullet/Bullet.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -67,9 +70,25 @@ void AGasCharacter::OnRep_PlayerState()
 	InitAbilityInfoActor();
 }
 
+void AGasCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetWorld()->GetTimerManager().SetTimer(BulletTimerHandle, this, &AGasCharacter::OnBulletTimer, 1.f, true);
+}
+
+void AGasCharacter::OnBulletTimer()
+{
+	checkf(Bullet,TEXT("Fill BulletClass"));
+	ABullet* BulletActor =  GetWorld()->SpawnActor<ABullet>(Bullet,GetActorLocation() + (GetActorForwardVector() * 100),GetActorRotation());
+	BulletActor->SetLifeSpan(5.f);
+}
+
 void AGasCharacter::InitAbilityInfoActor()
 {
 	AGasPlayerState* GasPlayerState = GetPlayerState<AGasPlayerState>();
 	check(GasPlayerState);
 	GasPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GasPlayerState,this);
+	AbilitySystemComponent = GasPlayerState->GetAbilitySystemComponent();
+	AttributeSet = GasPlayerState->GetAttributeSet();
 }
