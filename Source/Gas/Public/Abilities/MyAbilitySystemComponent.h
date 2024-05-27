@@ -13,5 +13,5 @@ UCLASS()
 class GAS_API UMyAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-	//test 11
+	//test 112
 };
