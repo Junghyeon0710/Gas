@@ -47,7 +47,7 @@ public:
 	//값을 고정해도 이후에 변경되면 값이 또 바뀌기 때문에 이상적인 장소는 아님 post에서 수정당할 수 있음 그럼 거기서
 	//다시 clamp를 해줘야함
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
-	virtual  void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_Health)
